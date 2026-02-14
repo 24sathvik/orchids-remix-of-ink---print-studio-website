@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Filter, SlidersHorizontal, ChevronDown, Search, X } from 'lucide-react';
 import { ProductCard } from '@/components/ProductCard';
+import { ProductSkeleton } from '@/components/ProductSkeleton';
 import { products, categories } from '@/lib/products';
 
 function ProductsContent() {
@@ -14,6 +15,7 @@ function ProductsContent() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortPrice] = useState<'featured' | 'low-to-high' | 'high-to-low'>('featured');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [priceRange, setPriceRange] = useState<string>('all');
 
   useEffect(() => {
     const category = searchParams.get('category');
@@ -25,9 +27,17 @@ function ProductsContent() {
   const filteredProducts = products
     .filter(product => {
       const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
-      const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                           product.description.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesSearch;
+      const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchQuery.toLowerCase());
+
+      let matchesPrice = true;
+      if (priceRange === 'under-50') matchesPrice = product.price < 50;
+      else if (priceRange === '50-100') matchesPrice = product.price >= 50 && product.price <= 100;
+      else if (priceRange === '100-500') matchesPrice = product.price >= 100 && product.price <= 500;
+      else if (priceRange === '500-1000') matchesPrice = product.price >= 500 && product.price <= 1000;
+      else if (priceRange === 'above-1000') matchesPrice = product.price > 1000;
+
+      return matchesCategory && matchesSearch && matchesPrice;
     })
     .sort((a, b) => {
       if (sortBy === 'low-to-high') return a.price - b.price;
@@ -71,7 +81,7 @@ function ProductsContent() {
                   className="w-full pl-10 pr-4 py-3 bg-white border border-[#E8E0D5] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-[#C4A87C] transition-all shadow-sm"
                 />
                 {searchQuery && (
-                  <button 
+                  <button
                     onClick={() => setSearchQuery('')}
                     className="absolute right-3 top-1/2 -translate-y-1/2"
                   >
@@ -79,7 +89,7 @@ function ProductsContent() {
                   </button>
                 )}
               </div>
-              <button 
+              <button
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
                 className="flex items-center gap-2 px-5 py-3 bg-white border border-[#E8E0D5] rounded-full text-sm font-medium hover:bg-[#F8F4EF] transition-all shadow-sm lg:hidden"
               >
@@ -94,9 +104,8 @@ function ProductsContent() {
             <div className="flex items-center gap-8">
               <button
                 onClick={() => updateCategory('all')}
-                className={`relative text-sm font-medium tracking-wide transition-colors ${
-                  activeCategory === 'all' ? 'text-[#C4A87C]' : 'text-[#6B6462] hover:text-[#2D2926]'
-                }`}
+                className={`relative text-sm font-medium tracking-wide transition-colors ${activeCategory === 'all' ? 'text-[#C4A87C]' : 'text-[#6B6462] hover:text-[#2D2926]'
+                  }`}
               >
                 All Products
                 {activeCategory === 'all' && (
@@ -107,9 +116,8 @@ function ProductsContent() {
                 <button
                   key={cat.id}
                   onClick={() => updateCategory(cat.id)}
-                  className={`relative text-sm font-medium tracking-wide transition-colors ${
-                    activeCategory === cat.id ? 'text-[#C4A87C]' : 'text-[#6B6462] hover:text-[#2D2926]'
-                  }`}
+                  className={`relative text-sm font-medium tracking-wide transition-colors ${activeCategory === cat.id ? 'text-[#C4A87C]' : 'text-[#6B6462] hover:text-[#2D2926]'
+                    }`}
                 >
                   {cat.name}
                   {activeCategory === cat.id && (
@@ -118,7 +126,7 @@ function ProductsContent() {
                 </button>
               ))}
             </div>
-            
+
             <div className="flex items-center gap-4">
               <span className="text-xs text-[#6B6462] uppercase tracking-widest font-medium">Sort by:</span>
               <select
@@ -158,18 +166,17 @@ function ProductsContent() {
                     <X className="w-6 h-6 text-[#2D2926]" />
                   </button>
                 </div>
-                
+
                 <div className="space-y-8">
                   <div>
                     <h4 className="text-xs uppercase tracking-widest text-[#6B6462] mb-4 font-bold">Categories</h4>
                     <div className="flex flex-wrap gap-3">
                       <button
                         onClick={() => updateCategory('all')}
-                        className={`px-4 py-2 rounded-full border text-sm transition-all ${
-                          activeCategory === 'all' 
-                            ? 'bg-[#2D2926] text-white border-[#2D2926]' 
-                            : 'bg-white text-[#2D2926] border-[#E8E0D5]'
-                        }`}
+                        className={`px-4 py-2 rounded-full border text-sm transition-all ${activeCategory === 'all'
+                          ? 'bg-[#2D2926] text-white border-[#2D2926]'
+                          : 'bg-white text-[#2D2926] border-[#E8E0D5]'
+                          }`}
                       >
                         All
                       </button>
@@ -177,13 +184,38 @@ function ProductsContent() {
                         <button
                           key={cat.id}
                           onClick={() => updateCategory(cat.id)}
-                          className={`px-4 py-2 rounded-full border text-sm transition-all ${
-                            activeCategory === cat.id 
-                              ? 'bg-[#2D2926] text-white border-[#2D2926]' 
-                              : 'bg-white text-[#2D2926] border-[#E8E0D5]'
-                          }`}
+                          className={`px-4 py-2 rounded-full border text-sm transition-all ${activeCategory === cat.id
+                            ? 'bg-[#2D2926] text-white border-[#2D2926]'
+                            : 'bg-white text-[#2D2926] border-[#E8E0D5]'
+                            }`}
                         >
                           {cat.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-xs uppercase tracking-widest text-[#6B6462] mb-4 font-bold">Price Range</h4>
+                    <div className="grid grid-cols-1 gap-3">
+                      {[
+                        { id: 'all', label: 'All Prices' },
+                        { id: 'under-50', label: 'Under ₹50' },
+                        { id: '50-100', label: '₹50 - ₹100' },
+                        { id: '100-500', label: '₹100 - ₹500' },
+                        { id: '500-1000', label: '₹500 - ₹1000' },
+                        { id: 'above-1000', label: 'Above ₹1000' },
+                      ].map((range) => (
+                        <button
+                          key={range.id}
+                          onClick={() => setPriceRange(range.id)}
+                          className={`flex items-center justify-between p-4 rounded-xl border text-sm transition-all ${priceRange === range.id
+                            ? 'bg-[#2D2926] text-white border-[#2D2926]'
+                            : 'bg-white border-[#E8E0D5] text-[#2D2926]'
+                            }`}
+                        >
+                          {range.label}
+                          {priceRange === range.id && <div className="w-2 h-2 rounded-full bg-white" />}
                         </button>
                       ))}
                     </div>
@@ -200,11 +232,10 @@ function ProductsContent() {
                         <button
                           key={option.id}
                           onClick={() => setSortPrice(option.id as any)}
-                          className={`flex items-center justify-between p-4 rounded-xl border text-sm transition-all ${
-                            sortBy === option.id 
-                              ? 'bg-[#F8F4EF] border-[#C4A87C] text-[#C4A87C]' 
-                              : 'bg-white border-[#E8E0D5] text-[#2D2926]'
-                          }`}
+                          className={`flex items-center justify-between p-4 rounded-xl border text-sm transition-all ${sortBy === option.id
+                            ? 'bg-[#F8F4EF] border-[#C4A87C] text-[#C4A87C]'
+                            : 'bg-white border-[#E8E0D5] text-[#2D2926]'
+                            }`}
                         >
                           {option.label}
                           {sortBy === option.id && <div className="w-2 h-2 rounded-full bg-[#C4A87C]" />}
@@ -232,22 +263,32 @@ function ProductsContent() {
               <ProductCard key={product.id} product={product} index={index} />
             ))
           ) : (
-            <div className="col-span-full py-20 text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#F8F4EF] text-[#C4A87C] mb-6">
-                <Search className="w-6 h-6" />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="col-span-full py-32 text-center"
+            >
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#F8F4EF] text-[#C4A87C] mb-6">
+                <Search className="w-8 h-8" />
               </div>
-              <h3 className="font-serif text-2xl text-[#2D2926] mb-2">No products found</h3>
-              <p className="text-[#6B6462]">Try adjusting your search or filter to find what you&apos;re looking for.</p>
-              <button 
+              <h3 className="font-serif text-3xl text-[#2D2926] mb-3">No products found</h3>
+              <p className="text-[#6B6462] max-w-md mx-auto mb-8">
+                We couldn&apos;t find any products matching your current filters.
+                Try adjusting your search or price range.
+              </p>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => {
                   setActiveCategory('all');
                   setSearchQuery('');
+                  setPriceRange('all');
                 }}
-                className="mt-8 text-[#C4A87C] font-medium underline underline-offset-4"
+                className="px-8 py-3 bg-[#2D2926] text-white rounded-full font-medium shadow-lg hover:shadow-xl transition-all"
               >
                 Clear all filters
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
           )}
         </div>
       </div>
@@ -258,9 +299,19 @@ function ProductsContent() {
 export default function ProductsPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-[#FFFDF9]">
-        <div className="w-8 h-8 border-2 border-[#C4A87C] border-t-transparent rounded-full animate-spin" />
-      </div>
+      <main className="min-h-screen pt-24 pb-20 bg-[#FFFDF9]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 space-y-4">
+            <div className="h-4 w-32 bg-[#E8E0D5]/30 rounded animate-pulse" />
+            <div className="h-12 w-64 bg-[#E8E0D5]/30 rounded animate-pulse" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
+            {[...Array(8)].map((_, i) => (
+              <ProductSkeleton key={i} />
+            ))}
+          </div>
+        </div>
+      </main>
     }>
       <ProductsContent />
     </Suspense>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle, MessageCircle } from 'lucide-react';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -18,10 +18,10 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
+
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 1500));
-    
+
     setSubmitted(true);
     setLoading(false);
   };
@@ -100,6 +100,34 @@ export default function ContactPage() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 }}
+                className="bg-white p-8 rounded-3xl shadow-card border border-[#E8E0D5]/50"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-[#25D366]/10 flex items-center justify-center text-[#25D366] shrink-0">
+                    <MessageCircle className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-serif text-lg text-[#2D2926] mb-2">WhatsApp Us</h3>
+                    <p className="text-[#6B6462] text-sm">
+                      <a
+                        href="https://wa.me/919999999999"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-[#25D366] transition-colors"
+                      >
+                        +91 99999 99999
+                      </a>
+                      <br />
+                      <span className="text-xs text-[#C4A87C]">Available 24/7 for queries</span>
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
                 className="bg-white p-8 rounded-3xl shadow-card border border-[#E8E0D5]/50"
               >
@@ -153,7 +181,7 @@ export default function ContactPage() {
                     </div>
                     <h3 className="font-serif text-2xl text-[#2D2926] mb-4">Message Sent!</h3>
                     <p className="text-[#6B6462] mb-8">Thank you for reaching out. We&apos;ll get back to you within 24 hours.</p>
-                    <button 
+                    <button
                       onClick={() => {
                         setSubmitted(false);
                         setFormData({ name: '', email: '', phone: '', subject: '', message: '' });

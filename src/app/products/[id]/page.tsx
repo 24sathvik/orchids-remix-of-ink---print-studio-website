@@ -4,20 +4,19 @@ import { useState, useEffect, use } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ShoppingBag, 
-  ChevronLeft, 
-  ChevronRight, 
-  Minus, 
-  Plus, 
-  Star, 
-  ShieldCheck, 
-  Truck, 
+import {
+  ShoppingBag,
+  ChevronLeft,
+  ChevronRight,
+  Minus,
+  Plus,
+  Star,
+  ShieldCheck,
+  Truck,
   RefreshCw,
   Heart
 } from 'lucide-react';
 import { getProductById, products as allProducts } from '@/lib/products';
-import { useCart } from '@/components/CartProvider';
 import { ProductCard } from '@/components/ProductCard';
 
 interface ProductPageProps {
@@ -27,8 +26,7 @@ interface ProductPageProps {
 export default function ProductPage({ params }: ProductPageProps) {
   const { id } = use(params);
   const product = getProductById(id);
-  const { addToCart } = useCart();
-  
+
   const [quantity, setQuantity] = useState(product?.minQuantity || 1);
   const [activeImage, setActiveImage] = useState(0);
   const [recentlyViewed, setRecentlyViewed] = useState<any[]>([]);
@@ -39,15 +37,15 @@ export default function ProductPage({ params }: ProductPageProps) {
     // Handle recently viewed
     const stored = localStorage.getItem('recentlyViewed');
     let viewed = stored ? JSON.parse(stored) : [];
-    
+
     // Add current product to viewed
     viewed = viewed.filter((p: any) => p.id !== product.id);
     viewed.unshift(product);
     viewed = viewed.slice(0, 10); // Keep last 10
-    
+
     localStorage.setItem('recentlyViewed', JSON.stringify(viewed));
     setRecentlyViewed(viewed.filter((p: any) => p.id !== product.id));
-    
+
     // Set initial quantity to min quantity
     setQuantity(product.minQuantity);
   }, [product]);
@@ -91,16 +89,16 @@ export default function ProductPage({ params }: ProductPageProps) {
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                 priority
               />
-              
+
               {product.images.length > 1 && (
                 <>
-                  <button 
+                  <button
                     onClick={() => setActiveImage((prev) => (prev > 0 ? prev - 1 : product.images.length - 1))}
                     className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-[#2D2926] opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </button>
-                  <button 
+                  <button
                     onClick={() => setActiveImage((prev) => (prev < product.images.length - 1 ? prev + 1 : 0))}
                     className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-[#2D2926] opacity-0 group-hover:opacity-100 transition-opacity"
                   >
@@ -109,16 +107,15 @@ export default function ProductPage({ params }: ProductPageProps) {
                 </>
               )}
             </div>
-            
+
             {product.images.length > 1 && (
               <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
                 {product.images.map((img, i) => (
                   <button
                     key={i}
                     onClick={() => setActiveImage(i)}
-                    className={`relative w-20 aspect-[4/5] rounded-xl overflow-hidden flex-shrink-0 border-2 transition-all ${
-                      activeImage === i ? 'border-[#C4A87C]' : 'border-transparent opacity-60'
-                    }`}
+                    className={`relative w-20 aspect-[4/5] rounded-xl overflow-hidden flex-shrink-0 border-2 transition-all ${activeImage === i ? 'border-[#C4A87C]' : 'border-transparent opacity-60'
+                      }`}
                   >
                     <Image src={img} alt={`${product.title} ${i + 1}`} fill className="object-cover" />
                   </button>
@@ -138,16 +135,16 @@ export default function ProductPage({ params }: ProductPageProps) {
                 </div>
                 <span className="text-xs text-[#6B6462] font-medium uppercase tracking-widest">(24 Reviews)</span>
               </div>
-              
+
               <h1 className="font-serif text-4xl md:text-5xl text-[#2D2926] mb-4 leading-tight">
                 {product.title}
               </h1>
-              
+
               <div className="flex items-baseline gap-3 mb-6">
                 <span className="text-3xl font-semibold text-[#C4A87C]">₹{product.price}</span>
                 <span className="text-[#6B6462] text-sm italic">per piece</span>
               </div>
-              
+
               <p className="text-[#6B6462] text-lg leading-relaxed font-light mb-8">
                 {product.description}
               </p>
@@ -158,7 +155,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                 <span className="text-xs uppercase tracking-widest text-[#2D2926] font-bold">Quantity</span>
                 <div className="flex items-center gap-6">
                   <div className="flex items-center border border-[#E8E0D5] rounded-full p-1 bg-white">
-                    <button 
+                    <button
                       onClick={() => handleQuantityChange(-1)}
                       disabled={quantity <= product.minQuantity}
                       className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#F8F4EF] disabled:opacity-30 transition-colors"
@@ -166,7 +163,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                       <Minus className="w-4 h-4" />
                     </button>
                     <span className="w-12 text-center font-medium text-lg">{quantity}</span>
-                    <button 
+                    <button
                       onClick={() => handleQuantityChange(1)}
                       className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#F8F4EF] transition-colors"
                     >
@@ -178,16 +175,22 @@ export default function ProductPage({ params }: ProductPageProps) {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <button 
-                  onClick={() => addToCart(product, quantity)}
-                  className="flex-1 bg-[#2D2926] text-white py-5 rounded-full font-medium hover:bg-[#C4A87C] transition-all duration-300 flex items-center justify-center gap-3 shadow-lg group"
+                <button
+                  onClick={() => {
+                    const message = encodeURIComponent(`Hello, I am interested in ${product.title}. Price: ₹${product.price}. Please share more details.`);
+                    window.open(`https://wa.me/919999999999?text=${message}`, '_blank');
+                  }}
+                  className="flex-1 bg-[#25D366] text-white py-4 rounded-full font-medium hover:bg-[#128C7E] transition-all duration-300 flex items-center justify-center gap-3 shadow-lg group"
                 >
                   <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                  Add to Shopping Bag
+                  Request via WhatsApp
                 </button>
-                <button className="w-16 h-16 border border-[#E8E0D5] rounded-full flex items-center justify-center text-[#2D2926] hover:bg-white hover:border-[#C4A87C] hover:text-[#C4A87C] transition-all">
-                  <Heart className="w-6 h-6" />
-                </button>
+                <Link
+                  href="/contact"
+                  className="px-8 py-4 border border-[#E8E0D5] rounded-full flex items-center justify-center text-[#2D2926] hover:bg-white hover:border-[#C4A87C] hover:text-[#C4A87C] transition-all font-medium"
+                >
+                  Request a Quote
+                </Link>
               </div>
             </div>
 
@@ -224,7 +227,7 @@ export default function ProductPage({ params }: ProductPageProps) {
           </div>
           <div className="max-w-3xl prose prose-neutral prose-stone">
             <p className="text-[#6B6462] leading-relaxed mb-6">
-              Our {product.title} is a testament to our commitment to craftsmanship. Each piece is meticulously produced using premium cardstock, featuring advanced printing techniques that bring every detail to life. 
+              Our {product.title} is a testament to our commitment to craftsmanship. Each piece is meticulously produced using premium cardstock, featuring advanced printing techniques that bring every detail to life.
             </p>
             <ul className="text-[#6B6462] space-y-2">
               <li>• Premium 300 GSM textured cardstock</li>

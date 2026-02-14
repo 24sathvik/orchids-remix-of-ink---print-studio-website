@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, Menu, X, Heart } from 'lucide-react';
-import { useCart } from './CartProvider';
+import { Menu, X, Heart } from 'lucide-react';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -17,7 +16,7 @@ const navLinks = [
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { itemCount, setIsOpen } = useCart();
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,11 +32,10 @@ export function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled 
-            ? 'bg-white/95 backdrop-blur-md shadow-elegant' 
-            : 'bg-transparent'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
+          ? 'bg-white/95 backdrop-blur-md shadow-elegant'
+          : 'bg-transparent'
+          }`}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
@@ -76,24 +74,8 @@ export function Navbar() {
               >
                 <Heart className="w-5 h-5" />
               </motion.button>
-              
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsOpen(true)}
-                className="relative p-2 text-[#2D2926]/70 hover:text-[#C4A87C] transition-colors"
-              >
-                <ShoppingBag className="w-5 h-5" />
-                {itemCount > 0 && (
-                  <motion.span
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-[#C4A87C] text-white text-[10px] font-medium rounded-full flex items-center justify-center"
-                  >
-                    {itemCount > 99 ? '99+' : itemCount}
-                  </motion.span>
-                )}
-              </motion.button>
+
+
 
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
@@ -114,7 +96,7 @@ export function Navbar() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[60] lg:hidden"
           >
-            <div 
+            <div
               className="absolute inset-0 bg-black/30 backdrop-blur-sm"
               onClick={() => setIsMobileMenuOpen(false)}
             />

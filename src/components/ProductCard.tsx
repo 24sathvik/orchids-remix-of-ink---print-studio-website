@@ -3,9 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ShoppingBag, Star } from 'lucide-react';
-import { Product } from '@/lib/products';
-import { useCart } from './CartProvider';
+import { Star } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -13,7 +11,6 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, index = 0 }: ProductCardProps) {
-  const { addToCart } = useCart();
 
   return (
     <motion.div
@@ -29,11 +26,11 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             src={product.images[0]}
             alt={product.title}
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            className="object-cover transition-transform duration-700 group-hover:scale-110"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          
+          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
           {product.bestseller && (
             <div className="absolute top-3 left-3 px-3 py-1 bg-[#C4A87C] text-white text-xs font-medium rounded-full flex items-center gap-1">
               <Star className="w-3 h-3 fill-current" />
@@ -41,19 +38,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             </div>
           )}
 
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              addToCart(product, product.minQuantity);
-            }}
-            className="absolute bottom-3 right-3 w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-[#C4A87C] hover:text-white"
-          >
-            <ShoppingBag className="w-5 h-5" />
-          </motion.button>
+
         </div>
       </Link>
 

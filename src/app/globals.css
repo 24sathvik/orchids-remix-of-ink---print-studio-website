@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Outfit:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap');
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -8,9 +8,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-outfit);
-  --font-serif: var(--font-cormorant);
+  --font-sans: var(--font-quicksand);
+  --font-serif: var(--font-quincy);
   --font-mono: var(--font-geist-mono);
+  
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -19,83 +20,100 @@
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
+  
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
   --color-chart-3: var(--chart-3);
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
+  
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
+  
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
+  
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
+  
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
+  
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-gold: var(--gold);
-  --color-gold-light: var(--gold-light);
-  --color-blush: var(--blush);
-  --color-ivory: var(--ivory);
-  --color-champagne: var(--champagne);
-  --color-peach: var(--peach);
+  
+  --color-sage: var(--primary);
+  --color-deep-green: var(--primary-dark);
+  --color-ivory: var(--background-soft);
 }
 
 :root {
-  --radius: 0.625rem;
-  --font-outfit: 'Outfit', sans-serif;
-  --font-cormorant: 'Cormorant Garamond', serif;
+  --radius: 0.75rem; /* 12px */
   
-  --background: #FFFDF9;
-  --foreground: #2D2926;
-  --card: #FFFFFF;
-  --card-foreground: #2D2926;
-  --popover: #FFFFFF;
-  --popover-foreground: #2D2926;
-  --primary: #C4A87C;
-  --primary-foreground: #FFFFFF;
-  --secondary: #F8F4EF;
-  --secondary-foreground: #2D2926;
-  --muted: #F5F0E8;
-  --muted-foreground: #6B6462;
-  --accent: #E8DDD4;
-  --accent-foreground: #2D2926;
+  /* Fonts */
+  --font-quicksand: 'Quicksand', sans-serif;
+  --font-quincy: 'Cormorant Garamond', serif; /* Fallback for Quincy */
+  
+  /* Brand Core Colors */
+  --primary: #717f65; /* Sage Green */
+  --primary-dark: #32612d; /* Deep Botanical Green */
+  --text-dark: #000000;
+  --background-soft: #f2efe6; /* Soft Ivory */
+  
+  /* System Mapping */
+  --background: #f2efe6;
+  --foreground: #000000;
+  
+  --card: #ffffff;
+  --card-foreground: #000000;
+  
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+  
+  --primary-foreground: #ffffff;
+  
+  --secondary: #717f65;
+  --secondary-foreground: #ffffff;
+  
+  --muted: #e6e2d6;
+  --muted-foreground: #5c5c5c;
+  
+  --accent: #32612d;
+  --accent-foreground: #ffffff;
+  
   --destructive: #DC3545;
-  --border: #E8E0D5;
-  --input: #E8E0D5;
-  --ring: #C4A87C;
   
-  --gold: #C4A87C;
-  --gold-light: #D4BC94;
-  --blush: #F5D6D0;
-  --ivory: #FFFDF9;
-  --champagne: #F7E7CE;
-  --peach: #FFDAB9;
+  --border: #dcd8cc;
+  --input: #dcd8cc;
+  --ring: #717f65;
   
-  --chart-1: #C4A87C;
-  --chart-2: #E8DDD4;
-  --chart-3: #F5D6D0;
-  --chart-4: #D4BC94;
-  --chart-5: #B8977E;
-  --sidebar: #FDFBF7;
-  --sidebar-foreground: #2D2926;
-  --sidebar-primary: #C4A87C;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F8F4EF;
-  --sidebar-accent-foreground: #2D2926;
-  --sidebar-border: #E8E0D5;
-  --sidebar-ring: #C4A87C;
+  --chart-1: #717f65;
+  --chart-2: #32612d;
+  --chart-3: #f2efe6;
+  --chart-4: #a3b098;
+  --chart-5: #1a3317;
+  
+  --sidebar: #f2efe6;
+  --sidebar-foreground: #000000;
+  --sidebar-primary: #717f65;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e6e2d6;
+  --sidebar-accent-foreground: #000000;
+  --sidebar-border: #dcd8cc;
+  --sidebar-ring: #717f65;
 }
 
 @layer base {
@@ -103,38 +121,48 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground font-sans;
-    font-family: 'Outfit', sans-serif;
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: var(--font-quicksand);
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-quincy);
+    @apply tracking-wide;
   }
 }
 
 @layer utilities {
   .font-serif {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-quincy);
   }
   .font-sans {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-quicksand);
   }
-  .text-gradient-gold {
-    background: linear-gradient(135deg, #C4A87C 0%, #D4BC94 50%, #B8977E 100%);
+  
+  /* Artistic & Premium Utilities */
+  .text-gradient-brand {
+    background: linear-gradient(135deg, #32612d 0%, #717f65 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  .bg-gradient-elegant {
-    background: linear-gradient(135deg, #FFFDF9 0%, #F8F4EF 50%, #F5F0E8 100%);
+  
+  .glass-effect {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-lg;
   }
-  .bg-gradient-gold {
-    background: linear-gradient(135deg, #C4A87C 0%, #D4BC94 100%);
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
+  
+  .shadow-soft-lift {
+    box-shadow: 0 10px 30px -10px rgba(50, 97, 45, 0.15);
+  }
+  
   .shadow-elegant {
-    box-shadow: 0 4px 20px rgba(196, 168, 124, 0.15);
-  }
-  .shadow-card {
-    box-shadow: 0 2px 12px rgba(45, 41, 38, 0.08);
+    box-shadow: 0 4px 20px rgba(113, 127, 101, 0.15);
   }
 }
 
@@ -143,6 +171,6 @@ html {
 }
 
 ::selection {
-  background-color: #C4A87C;
+  background-color: var(--primary);
   color: #FFFFFF;
 }

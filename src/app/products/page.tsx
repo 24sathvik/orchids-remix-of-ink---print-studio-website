@@ -57,33 +57,33 @@ function ProductsContent() {
   };
 
   return (
-    <main className="min-h-screen pt-24 pb-20 bg-[#FFFDF9]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen pt-24 pb-20 bg-[#f2efe6]">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Header */}
         <header className="mb-12">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
             <div>
-              <nav className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#C4A87C] mb-4">
-                <button onClick={() => updateCategory('all')} className="hover:underline">Home</button>
+              <nav className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#717f65] mb-4 font-medium">
+                <button onClick={() => updateCategory('all')} className="hover:text-[#32612d] transition-colors">Home</button>
                 <span>/</span>
-                <span className="font-semibold">Collections</span>
+                <span className="font-bold text-[#32612d]">Collections</span>
               </nav>
-              <h1 className="font-serif text-4xl md:text-6xl text-[#2D2926]">Our Collections</h1>
+              <h1 className="font-serif text-5xl md:text-6xl text-[#717f65]">Our Collections</h1>
             </div>
             <div className="flex items-center gap-4">
-              <div className="relative flex-1 md:w-64">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6462]" />
+              <div className="relative flex-1 md:w-72">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#717f65]" />
                 <input
                   type="text"
                   placeholder="Search products..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-white border border-[#E8E0D5] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-[#C4A87C] transition-all shadow-sm"
+                  className="w-full pl-11 pr-5 py-4 bg-white border border-[#dcd8cc] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-[#717f65] transition-all shadow-sm text-[#000000]"
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="absolute right-3 top-1/2 -translate-y-1/2"
+                    className="absolute right-4 top-1/2 -translate-y-1/2"
                   >
                     <X className="w-4 h-4 text-[#6B6462]" />
                   </button>
@@ -91,7 +91,7 @@ function ProductsContent() {
               </div>
               <button
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className="flex items-center gap-2 px-5 py-3 bg-white border border-[#E8E0D5] rounded-full text-sm font-medium hover:bg-[#F8F4EF] transition-all shadow-sm lg:hidden"
+                className="flex items-center gap-2 px-6 py-4 bg-white border border-[#dcd8cc] rounded-full text-sm font-medium hover:bg-[#f2efe6] transition-all shadow-sm lg:hidden text-[#32612d]"
               >
                 <Filter className="w-4 h-4" />
                 Filter
@@ -100,39 +100,39 @@ function ProductsContent() {
           </div>
 
           {/* Desktop Categories */}
-          <div className="hidden lg:flex items-center justify-between border-b border-[#E8E0D5] pb-6">
+          <div className="hidden lg:flex items-center justify-between border-b border-[#32612d]/10 pb-6">
             <div className="flex items-center gap-8">
               <button
                 onClick={() => updateCategory('all')}
-                className={`relative text-sm font-medium tracking-wide transition-colors ${activeCategory === 'all' ? 'text-[#C4A87C]' : 'text-[#6B6462] hover:text-[#2D2926]'
+                className={`relative text-sm font-medium tracking-wide transition-colors ${activeCategory === 'all' ? 'text-[#32612d]' : 'text-[#6B6462] hover:text-[#32612d]'
                   }`}
               >
                 All Products
                 {activeCategory === 'all' && (
-                  <motion.div layoutId="categoryUnderline" className="absolute -bottom-[25px] left-0 right-0 h-0.5 bg-[#C4A87C]" />
+                  <motion.div layoutId="categoryUnderline" className="absolute -bottom-[25px] left-0 right-0 h-0.5 bg-[#32612d]" />
                 )}
               </button>
               {categories.map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => updateCategory(cat.id)}
-                  className={`relative text-sm font-medium tracking-wide transition-colors ${activeCategory === cat.id ? 'text-[#C4A87C]' : 'text-[#6B6462] hover:text-[#2D2926]'
+                  className={`relative text-sm font-medium tracking-wide transition-colors ${activeCategory === cat.id ? 'text-[#32612d]' : 'text-[#6B6462] hover:text-[#32612d]'
                     }`}
                 >
                   {cat.name}
                   {activeCategory === cat.id && (
-                    <motion.div layoutId="categoryUnderline" className="absolute -bottom-[25px] left-0 right-0 h-0.5 bg-[#C4A87C]" />
+                    <motion.div layoutId="categoryUnderline" className="absolute -bottom-[25px] left-0 right-0 h-0.5 bg-[#32612d]" />
                   )}
                 </button>
               ))}
             </div>
 
             <div className="flex items-center gap-4">
-              <span className="text-xs text-[#6B6462] uppercase tracking-widest font-medium">Sort by:</span>
+              <span className="text-xs text-[#717f65] uppercase tracking-widest font-medium">Sort by:</span>
               <select
                 value={sortBy}
                 onChange={(e) => setSortPrice(e.target.value as any)}
-                className="bg-transparent text-sm font-medium text-[#2D2926] focus:outline-none cursor-pointer"
+                className="bg-transparent text-sm font-medium text-[#32612d] focus:outline-none cursor-pointer"
               >
                 <option value="featured">Featured</option>
                 <option value="low-to-high">Price: Low to High</option>
@@ -158,24 +158,24 @@ function ProductsContent() {
                 animate={{ y: 0 }}
                 exit={{ y: '100%' }}
                 transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                className="fixed bottom-0 left-0 right-0 bg-white rounded-t-[2rem] p-8 z-[70] lg:hidden shadow-2xl"
+                className="fixed bottom-0 left-0 right-0 bg-[#f2efe6] rounded-t-[2rem] p-8 z-[70] lg:hidden shadow-2xl"
               >
                 <div className="flex items-center justify-between mb-8">
-                  <h3 className="font-serif text-2xl text-[#2D2926]">Filter & Sort</h3>
+                  <h3 className="font-serif text-2xl text-[#32612d]">Filter & Sort</h3>
                   <button onClick={() => setIsFilterOpen(false)} className="p-2">
-                    <X className="w-6 h-6 text-[#2D2926]" />
+                    <X className="w-6 h-6 text-[#32612d]" />
                   </button>
                 </div>
 
                 <div className="space-y-8">
                   <div>
-                    <h4 className="text-xs uppercase tracking-widest text-[#6B6462] mb-4 font-bold">Categories</h4>
+                    <h4 className="text-xs uppercase tracking-widest text-[#717f65] mb-4 font-bold">Categories</h4>
                     <div className="flex flex-wrap gap-3">
                       <button
                         onClick={() => updateCategory('all')}
                         className={`px-4 py-2 rounded-full border text-sm transition-all ${activeCategory === 'all'
-                          ? 'bg-[#2D2926] text-white border-[#2D2926]'
-                          : 'bg-white text-[#2D2926] border-[#E8E0D5]'
+                          ? 'bg-[#32612d] text-white border-[#32612d]'
+                          : 'bg-white text-[#717f65] border-[#dcd8cc]'
                           }`}
                       >
                         All
@@ -185,8 +185,8 @@ function ProductsContent() {
                           key={cat.id}
                           onClick={() => updateCategory(cat.id)}
                           className={`px-4 py-2 rounded-full border text-sm transition-all ${activeCategory === cat.id
-                            ? 'bg-[#2D2926] text-white border-[#2D2926]'
-                            : 'bg-white text-[#2D2926] border-[#E8E0D5]'
+                            ? 'bg-[#32612d] text-white border-[#32612d]'
+                            : 'bg-white text-[#717f65] border-[#dcd8cc]'
                             }`}
                         >
                           {cat.name}
@@ -196,7 +196,7 @@ function ProductsContent() {
                   </div>
 
                   <div>
-                    <h4 className="text-xs uppercase tracking-widest text-[#6B6462] mb-4 font-bold">Price Range</h4>
+                    <h4 className="text-xs uppercase tracking-widest text-[#717f65] mb-4 font-bold">Price Range</h4>
                     <div className="grid grid-cols-1 gap-3">
                       {[
                         { id: 'all', label: 'All Prices' },
@@ -210,8 +210,8 @@ function ProductsContent() {
                           key={range.id}
                           onClick={() => setPriceRange(range.id)}
                           className={`flex items-center justify-between p-4 rounded-xl border text-sm transition-all ${priceRange === range.id
-                            ? 'bg-[#2D2926] text-white border-[#2D2926]'
-                            : 'bg-white border-[#E8E0D5] text-[#2D2926]'
+                            ? 'bg-[#32612d] text-white border-[#32612d]'
+                            : 'bg-white border-[#dcd8cc] text-[#32612d]'
                             }`}
                         >
                           {range.label}
@@ -222,7 +222,7 @@ function ProductsContent() {
                   </div>
 
                   <div>
-                    <h4 className="text-xs uppercase tracking-widest text-[#6B6462] mb-4 font-bold">Sort By</h4>
+                    <h4 className="text-xs uppercase tracking-widest text-[#717f65] mb-4 font-bold">Sort By</h4>
                     <div className="grid grid-cols-1 gap-3">
                       {[
                         { id: 'featured', label: 'Featured' },
@@ -233,12 +233,12 @@ function ProductsContent() {
                           key={option.id}
                           onClick={() => setSortPrice(option.id as any)}
                           className={`flex items-center justify-between p-4 rounded-xl border text-sm transition-all ${sortBy === option.id
-                            ? 'bg-[#F8F4EF] border-[#C4A87C] text-[#C4A87C]'
-                            : 'bg-white border-[#E8E0D5] text-[#2D2926]'
+                            ? 'bg-white border-[#32612d] text-[#32612d]'
+                            : 'bg-white border-[#dcd8cc] text-[#6B6462]'
                             }`}
                         >
                           {option.label}
-                          {sortBy === option.id && <div className="w-2 h-2 rounded-full bg-[#C4A87C]" />}
+                          {sortBy === option.id && <div className="w-2 h-2 rounded-full bg-[#32612d]" />}
                         </button>
                       ))}
                     </div>
@@ -246,7 +246,7 @@ function ProductsContent() {
 
                   <button
                     onClick={() => setIsFilterOpen(false)}
-                    className="w-full py-4 bg-[#C4A87C] text-white rounded-full font-medium shadow-lg"
+                    className="w-full py-4 bg-[#32612d] text-white rounded-full font-medium shadow-lg hover:bg-[#264a22] transition-colors"
                   >
                     Apply Filters
                   </button>
@@ -268,11 +268,11 @@ function ProductsContent() {
               animate={{ opacity: 1, y: 0 }}
               className="col-span-full py-32 text-center"
             >
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#F8F4EF] text-[#C4A87C] mb-6">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#e8e4d9] text-[#717f65] mb-6">
                 <Search className="w-8 h-8" />
               </div>
-              <h3 className="font-serif text-3xl text-[#2D2926] mb-3">No products found</h3>
-              <p className="text-[#6B6462] max-w-md mx-auto mb-8">
+              <h3 className="font-serif text-3xl text-[#000000] mb-3">No products found</h3>
+              <p className="text-[#6B6462] max-w-md mx-auto mb-8 font-light">
                 We couldn&apos;t find any products matching your current filters.
                 Try adjusting your search or price range.
               </p>
@@ -284,7 +284,7 @@ function ProductsContent() {
                   setSearchQuery('');
                   setPriceRange('all');
                 }}
-                className="px-8 py-3 bg-[#2D2926] text-white rounded-full font-medium shadow-lg hover:shadow-xl transition-all"
+                className="px-8 py-3 bg-[#32612d] text-white rounded-full font-medium shadow-lg hover:shadow-xl transition-all"
               >
                 Clear all filters
               </motion.button>
@@ -299,11 +299,11 @@ function ProductsContent() {
 export default function ProductsPage() {
   return (
     <Suspense fallback={
-      <main className="min-h-screen pt-24 pb-20 bg-[#FFFDF9]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <main className="min-h-screen pt-24 pb-20 bg-[#f2efe6]">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="mb-12 space-y-4">
-            <div className="h-4 w-32 bg-[#E8E0D5]/30 rounded animate-pulse" />
-            <div className="h-12 w-64 bg-[#E8E0D5]/30 rounded animate-pulse" />
+            <div className="h-4 w-32 bg-[#dcd8cc]/50 rounded animate-pulse" />
+            <div className="h-12 w-64 bg-[#dcd8cc]/50 rounded animate-pulse" />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
             {[...Array(8)].map((_, i) => (
